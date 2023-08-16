@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>About Flask</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+
+    <h1> About MESA </h1>
+    <p> MESA is a platform to alter Energy Plus Weather files to account for climate change. </p>
+    <p> MESA is connected to a Google Cloud bucket that holds the CMIP6 ScenarioMIP outputs. </p>
+    <img src="/static/ssps.jpg" width="500"> </img>
+
+    {% endblock %}
+  </body>
+</html>
