@@ -7,3 +7,4 @@ function openResponsive() {
     x.className = "topnav";
   }
 }
+

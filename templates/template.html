@@ -22,7 +22,7 @@
 
 <body>
     <div class="container">
-        <div class="topnav" id="mainNav">
+        <div class="nav" id="mainNav">
             <a {% if request.path=='/' %} class="active nav-link" {% else %} class="nav-link" {% endif %}
                 href="/">Home</a>
             <a {% if request.path=='/about' %} class="active nav-link" {% else %} class="nav-link" {% endif %}
@@ -36,9 +36,9 @@
             </a>
         </div>
 
-        <div style="clear: both">
-            &nbsp;
-
+        <div style="clear: both; border-top: black solid 1px;">
+            <!-- &nbsp; -->
+            
             {% block content%}{% endblock %}
 
         </div>
