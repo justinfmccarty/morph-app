@@ -8,3 +8,24 @@ function openResponsive() {
   }
 }
 
+function logSubmit(event) {
+  // event.preventDefault();
+  console.log(`Form Submitted! Timestamp: ${event.timeStamp}`);
+  // console.log(form.elements)
+}
+// const form = document.getElementById("configuration");
+// form.addEventListener("lock", logSubmit);
+
+const configForm = document.getElementById("configuration")
+configForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+  const data = new FormData(configForm);
+  let temp = document.getElementById("temp-output")
+  temp.innerText = "---" + "\n"
+  for (const [name,value] of data) {
+    console.log(name, ":", value)
+    temp.innerText += name + ":" + value + "\n"
+  
+  }
+})

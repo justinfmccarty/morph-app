@@ -1,16 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Morphing Application</title>
-  </head>
-  <body>
-    {% extends "template.html" %}
-    {% block content %}
 
-    <h1> The app </h1>
-    
+<head>
+  <meta charset="utf-8">
+  <title>Morphing Application</title>
+</head>
 
-    {% endblock %}
-  </body>
+<body>
+  {% extends "template.html" %}
+  {% block content %}
+
+  <div class="content-container">
+    <div class="content left">
+      <form method="get" class="pure-form" id="configuration">
+        <fieldset>
+          <legend>Give your project a name:</legend>
+          <div>
+            <!-- <label for="project-name">Project Name:</label> -->
+            <input type="text" id="project-name" name="project-name">
+          </div>
+        </fieldset>
+
+
+        <fieldset>
+          <legend>Submit a baseline EPW file:</legend>
+          <div>
+            <!-- <label for="epw-file">Baseline EPW:</label> -->
+            <input type="file" id="epw-file" name="epw-file">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Set the baseline period:</legend>
+          <div>
+            <!-- <label for="baseline-period">Baseline Period:</label> -->
+            <input type="range" id="baseline-period" name="baseline-period">
+            <label class="checkbox-field">
+              <input type="checkbox" id="use-epw" name="use-epw" value="True">
+              <span class="label-body">Detect from EPW</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Select a single climate pathway:</legend>
+          <div>
+            <label class="radio-field">
+              <input type="radio" id="ssp126" name="climate-pathways" value="SSP126">
+              <span class="label-body">SSP126</span>
+              <input type="radio" id="ssp245" name="climate-pathways" value="SSP245">
+              <span class="label-body">SSP245</span>
+              <input type="radio" id="ssp585" name="climate-pathways" value="SSP585">
+              <span class="label-body">SSP585</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>State the future years:</legend>
+          <div>
+            <!-- <label for="future-years">Future Years:</label> -->
+            <input type="text" id="future-years" name="future-years">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Select one or more percentiles of warming:</legend>
+          <div>
+            <label class="checkbox">
+              <input type="checkbox" id="1st" name="percentiles" value="1">
+              <span class="label-body">1st</span>
+              <input type="checkbox" id="5th" name="percentiles" value="5">
+              <span class="label-body">5th</span>
+              <input type="checkbox" id="10th" name="percentiles" value="10">
+              <span class="label-body">10th</span>
+              <input type="checkbox" id="25th" name="percentiles" value="25">
+              <span class="label-body">25th</span>
+              <input type="checkbox" id="50th" name="percentiles" value="50">
+              <span class="label-body">50th</span>
+              <input type="checkbox" id="75th" name="percentiles" value="75">
+              <span class="label-body">75th</span>
+              <input type="checkbox" id="90th" name="percentiles" value="90">
+              <span class="label-body">90th</span>
+              <input type="checkbox" id="95th" name="percentiles" value="95">
+              <span class="label-body">95th</span>
+              <input type="checkbox" id="99th" name="percentiles" value="99">
+              <span class="label-body">99th</span>
+            </label>
+          </div>
+        </fieldset>
+
+
+        <fieldset>
+          <legend>Select variables to morph:</legend>
+          <div>
+            <label class="checkbox">
+              <input type="checkbox" id="tas" name="variables" value="tas">
+              <span class="label-body">Temperature</span>
+              <input type="checkbox" id="relhum" name="variables" value="relhum">
+              <span class="label-body">Relative Humidity</span>
+              <input type="checkbox" id="wind" name="variables" value="wind">
+              <span class="label-body">Wind Speed</span>
+              <input type="checkbox" id="rad" name="variables" value="rad">
+              <span class="label-body">Clouds & Radiation</span>
+              <input type="checkbox" id="psl" name="variables" value="psl">
+              <span class="label-body">Pressure</span>
+              <input type="checkbox" id="dewpt" name="variables" value="dewpt">
+              <span class="label-body">Dew Point</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <label for="lock"></label>
+        <input type="submit" id="lock" name="lock">
+        <!-- <button id="lock">Lock</button> -->
+        <!-- <label for="reset-input"></label> -->
+        <input type="reset" id="reset-input" name="reset-input">
+
+
+      </form>
+    </div>
+    <div class="content right">
+
+      <div id="temp-output">
+
+      </div>
+
+    </div>
+  </div>
+
+
+  {% endblock %}
+</body>
+
+<footer>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="{{ url_for('static',     filename='scripts/scripts.js') }}"></script>
+</footer>
+
 </html>

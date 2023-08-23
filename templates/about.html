@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>About Flask</title>
-  </head>
-  <body>
-    {% extends "template.html" %}
-    {% block content %}
 
-    <h1> About MESA </h1>
-    <p> MESA is a platform to alter Energy Plus Weather files to account for climate change. </p>
-    <p> MESA is connected to a Google Cloud bucket that holds the CMIP6 ScenarioMIP outputs. </p>
-    <img src="/static/ssps.jpg" width="500"> </img>
+<head>
+  <meta charset="utf-8">
+  <title>About Flask</title>
+</head>
 
-    {% endblock %}
-  </body>
+<body>
+  {% extends "template.html" %}
+  {% block content %}
+
+  <div class="container">
+    <div class="content-container thirds">
+      <div class="content left">
+        <h5>Climate Change Risk</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a reprehenderit laborum nostrum laudantium
+          aliquam aliquid architecto ea labore nam voluptatibus, recusandae expedita eveniet rem soluta, perferendis
+          fugiat, aperiam blanditiis?</p>
+      </div>
+      <div class="content right">
+        Six
+      </div>
+    </div>
+    <div class="content-container thirds">
+      <div class="content left">
+        Six
+      </div>
+      <div class="content right">
+        <h5>Built Environment</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a reprehenderit laborum nostrum laudantium
+          aliquam aliquid architecto ea labore nam voluptatibus, recusandae expedita eveniet rem soluta, perferendis
+          fugiat, aperiam blanditiis?</p>
+      </div>
+    </div>
+    <div class="content-container thirds">
+      <div class="content left">
+        <h5>Boundary Conditions</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a reprehenderit laborum nostrum laudantium
+          aliquam aliquid architecto ea labore nam voluptatibus, recusandae expedita eveniet rem soluta, perferendis
+          fugiat, aperiam blanditiis?</p>
+      </div>
+      <div class="content right">
+        Six
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</body>
+
+<footer>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="{{ url_for('static',     filename='scripts/scripts.js') }}"></script>
+</footer>
+
 </html>
