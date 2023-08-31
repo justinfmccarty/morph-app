@@ -213,6 +213,7 @@
 
 .content {
     width: 50%;
+    height: 100%;
     float: left;
     /* flex: 1; */
     margin: 0px auto;
@@ -221,8 +222,8 @@
 }
 
 .content.left {
+    background-color: #3399FF;
     height: 100%;
-    background-color: gray;
 }
 
 
@@ -253,4 +254,73 @@
         border: 0;
         border-bottom: 2px solid #000;
     }
+}
+
+.morph-output {
+    width: 100%;
+    border-style: solid;
+    border-color: #000;
+    background-color: brown;
+    /* padding: 10px; */
+}
+
+.two-fifth {
+    height: 45%;
+}
+
+.one-fifth {
+    height: 10%;
+}
+
+.morph-output-header {
+    width: 100%;
+    height: 2em;
+    background-color: #3399FF;
+}
+
+/* .run-button {
+    width: auto;
+    height: 100%;
+    background-color: red;
+} */
+
+.morph-output-title {
+    float: left;
+    width: 80%;
+}
+
+.morph-output-execute {
+    float: right;
+    width: 15%;
+    text-align: center;
+    border: dashed red;
+    cursor: pointer;
+}
+
+.morph-output-execute:hover {
+    border: solid black;
+}
+
+.morph-output-body {
+    height: auto;
+}
+
+#configuration {
+    display: inline-block;
+    height: 50%;
+    width: 100%;
+}
+
+.bottom-half {
+    height: 50%;
+}
+
+.epwmap-container {
+    width: 100%;
+    height: 60%;
+}
+
+.morph-output-download {
+    text-align: center;
+    color: pink;
 }

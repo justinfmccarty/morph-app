@@ -12,7 +12,8 @@
 
   <div class="content-container">
     <div class="content left">
-      <form method="get" class="pure-form" id="configuration">
+      <h2>Configuration</h2>
+      <form method="post" class="pure-form" id="configuration">
         <fieldset>
           <legend>Give your project a name:</legend>
           <div>
@@ -23,7 +24,7 @@
 
 
         <fieldset>
-          <legend>Submit a baseline EPW file:</legend>
+          <legend>Upload a baseline EPW file:</legend>
           <div>
             <!-- <label for="epw-file">Baseline EPW:</label> -->
             <input type="file" id="epw-file" name="epw-file">
@@ -119,14 +120,39 @@
 
 
       </form>
+      <!-- <div class="bottom-half">
+        <h2>Ladybug Tools EPW Map</h2>
+        <iframe class="epwmap-container" src="https://www.ladybug.tools/epwmap/" title="Ladybug Tool EPW Map"></iframe>
+      </div> -->
+
     </div>
     <div class="content right">
-
-      <div id="temp-output">
-
+      <div class="morph-output two-fifth">
+        <div class="morph-output-header">
+          <div class="morph-output-title">Get CMPI6</div>
+          <div class="morph-output-execute run-button" id="exec-get-cmip" onclick="execGetCMIP()">Run ></div>
+        </div>
+        <div class="morph-output-body">
+          <p id="temp-output"></p>
+        </div>
       </div>
-
+      <div class="morph-output two-fifth">
+        <div class="morph-output-header">
+          <div class="morph-output-title">Morph EPW</div>
+          <div class="morph-output-execute run-button" id="exec-morph-epw" onclick="execMorphEPW()">Run ></div>
+        </div>
+        <div class="morph-output-body">
+          <p id="temp-output"></p>
+        </div>
+      </div>
+      <div class="morph-output one-fifth">
+        <!-- <div class="morph-output-title">Download Results</div> -->
+        <!-- <div class="morph-output-execute run-button" href="/exec-get-results" id="exec-get-results" >Run ></div> -->
+        <a class="morph-output-download" href="/exec-get-results">Download Results</a>
+      </div>
     </div>
+
+  </div>
   </div>
 
 
