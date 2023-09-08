@@ -13,7 +13,8 @@
   <div class="content-container">
     <div class="content left">
       <h2>Configuration</h2>
-      <form method="post" class="pure-form" id="configuration">
+      <form method="POST" class="pure-form" name='configuration' id="configuration" enctype="multipart/form-data"
+        action="{{ url_for('morpher') }}">
         <fieldset>
           <legend>Give your project a name:</legend>
           <div>
@@ -27,14 +28,13 @@
           <legend>Upload a baseline EPW file:</legend>
           <div>
             <!-- <label for="epw-file">Baseline EPW:</label> -->
-            <input type="file" id="epw-file" name="epw-file">
+            <input type="file" id="epw-file" name="epw-file" accept=".epw">
           </div>
         </fieldset>
 
         <fieldset>
           <legend>Set the baseline period:</legend>
           <div>
-            <!-- <label for="baseline-period">Baseline Period:</label> -->
             <input type="range" id="baseline-period" name="baseline-period">
             <label class="checkbox-field">
               <input type="checkbox" id="use-epw" name="use-epw" value="True">
@@ -44,21 +44,21 @@
         </fieldset>
 
         <fieldset>
-          <legend>Select a single climate pathway:</legend>
+          <legend>Select a one or more climate pathways:</legend>
           <div>
-            <label class="radio-field">
-              <input type="radio" id="ssp126" name="climate-pathways" value="SSP126">
-              <span class="label-body">SSP126</span>
-              <input type="radio" id="ssp245" name="climate-pathways" value="SSP245">
-              <span class="label-body">SSP245</span>
-              <input type="radio" id="ssp585" name="climate-pathways" value="SSP585">
-              <span class="label-body">SSP585</span>
+            <label class="checkbox">
+              <input type="checkbox" id="ssp126" name="climate-pathways" value="Best Case Scenario">
+              <span class="label-body">Best Case Scenario</span>
+              <input type="checkbox" id="ssp245" name="climate-pathways" value="Middle of the Road">
+              <span class="label-body">Middle of the Road</span>
+              <input type="checkbox" id="ssp585" name="climate-pathways" value="Worst Case Scenario">
+              <span class="label-body">Worst Case Scenario</span>
             </label>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend>State the future years:</legend>
+          <legend>State the future years (ex. 2030,2050):</legend>
           <div>
             <!-- <label for="future-years">Future Years:</label> -->
             <input type="text" id="future-years" name="future-years">
@@ -96,59 +96,52 @@
           <legend>Select variables to morph:</legend>
           <div>
             <label class="checkbox">
-              <input type="checkbox" id="tas" name="variables" value="tas">
+              <input type="checkbox" id="tas" name="variables" value="Temperature">
               <span class="label-body">Temperature</span>
-              <input type="checkbox" id="relhum" name="variables" value="relhum">
+              <input type="checkbox" id="relhum" name="variables" value="Humidity">
               <span class="label-body">Relative Humidity</span>
-              <input type="checkbox" id="wind" name="variables" value="wind">
+              <input type="checkbox" id="wind" name="variables" value="Wind">
               <span class="label-body">Wind Speed</span>
-              <input type="checkbox" id="rad" name="variables" value="rad">
+              <input type="checkbox" id="rad" name="variables" value="Clouds and Radiation">
               <span class="label-body">Clouds & Radiation</span>
-              <input type="checkbox" id="psl" name="variables" value="psl">
+              <input type="checkbox" id="psl" name="variables" value="Pressure">
               <span class="label-body">Pressure</span>
-              <input type="checkbox" id="dewpt" name="variables" value="dewpt">
+              <input type="checkbox" id="dewpt" name="variables" value="Dew Point">
               <span class="label-body">Dew Point</span>
             </label>
           </div>
         </fieldset>
 
-        <label for="lock"></label>
-        <input type="submit" id="lock" name="lock">
+        <!-- <label for="submit"></label> -->
+        <!-- <input type="submit" id="submit" name="submit"> -->
+        <button id="submit-form" type="button">Submit</button>
+        <!-- <input type="text" name="submit-btn" id="submit-btn"> -->
+        <!-- <button type="submit">submit data</button> -->
         <!-- <button id="lock">Lock</button> -->
         <!-- <label for="reset-input"></label> -->
         <input type="reset" id="reset-input" name="reset-input">
+        <div class="loader-container">
+          <div class="loader"></div>
+        </div>
 
 
       </form>
-      <!-- <div class="bottom-half">
-        <h2>Ladybug Tools EPW Map</h2>
-        <iframe class="epwmap-container" src="https://www.ladybug.tools/epwmap/" title="Ladybug Tool EPW Map"></iframe>
-      </div> -->
-
+      
     </div>
     <div class="content right">
-      <div class="morph-output two-fifth">
-        <div class="morph-output-header">
-          <div class="morph-output-title">Get CMPI6</div>
-          <div class="morph-output-execute run-button" id="exec-get-cmip" onclick="execGetCMIP()">Run ></div>
-        </div>
-        <div class="morph-output-body">
+      <div class="morph-output-body">
+        <div id="welcomeDiv"></div>
+        <div class="morph-body nine">
+          <h2>Morphing Routine</h2>
           <p id="temp-output"></p>
         </div>
-      </div>
-      <div class="morph-output two-fifth">
-        <div class="morph-output-header">
-          <div class="morph-output-title">Morph EPW</div>
-          <div class="morph-output-execute run-button" id="exec-morph-epw" onclick="execMorphEPW()">Run ></div>
+        <div class="morph-body one">
+          <!-- <a class="morph-output-download" id="exec-get-results" href="/exec-get-results">Download Results</a> -->
+          <!-- <a class="morph-output-download" id="exec-get-results" download>Download Results</a> -->
+
+          <a class="morph-output-download" id="exec-get-results" href="/download-morph-results" download
+            target="_blank">Download Results ></a>
         </div>
-        <div class="morph-output-body">
-          <p id="temp-output"></p>
-        </div>
-      </div>
-      <div class="morph-output one-fifth">
-        <!-- <div class="morph-output-title">Download Results</div> -->
-        <!-- <div class="morph-output-execute run-button" href="/exec-get-results" id="exec-get-results" >Run ></div> -->
-        <a class="morph-output-download" href="/exec-get-results">Download Results</a>
       </div>
     </div>
 
@@ -161,6 +154,7 @@
 
 <footer>
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script type="text/javascript" src="../jszip.js"></script>
   <script src="{{ url_for('static',     filename='scripts/scripts.js') }}"></script>
 </footer>
 
