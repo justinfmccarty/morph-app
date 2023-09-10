@@ -37,12 +37,6 @@ CORS(app)
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-# SESSION_TYPE = "filesystem"
-# app.config.from_object(__name__)
-# Session(app)
-
-
 @app.route("/")
 @cross_origin(supports_credentials=True)
 def home():
@@ -53,20 +47,6 @@ def home():
 @cross_origin(supports_credentials=True)
 def about():
     return render_template("about.html")
-
-
-# @app.route("/morpher", methods =["GET", "POST"])
-# def morpher():
-#     if request.method == "POST":
-#         if request.files['epw-file'].filename == '':
-#             pass
-#         else:
-#             df = read_epw(request.files['epw-file'])
-#             print(df)
-#             print(request.form.to_dict())
-
-
-#     return render_template("morpher.html")
 
 
 @app.route("/morpher", methods=["GET", "POST"])
