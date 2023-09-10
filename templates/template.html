@@ -22,6 +22,9 @@
 
 <body>
     <div class="container">
+        <div class="header-logo">
+            <h2 id="main-logo">The Morph EPW App</h2>
+        </div>
         <div class="nav" id="mainNav">
             <a {% if request.path=='/' %} class="active nav-link" {% else %} class="nav-link" {% endif %}
                 href="/">Home</a>
@@ -31,9 +34,9 @@
                 href="/morpher">Morpher</a>
                 <a {% if request.path=='/analysis' %} class="active nav-link" {% else %} class="nav-link" {% endif %}
                     href="/analysis">Analysis</a>
-            <a href="javascript:void(0);" class="icon" onclick="openResponsive()">
+            <!-- <a href="javascript:void(0);" class="icon" onclick="openResponsive()">
                 <i class="fa fa-bars"></i>
-            </a>
+            </a> -->
         </div>
 
         <div style="clear: both; border-top: black solid 1px;">

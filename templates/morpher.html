@@ -35,9 +35,18 @@
         <fieldset>
           <legend>Set the baseline period:</legend>
           <div>
-            <input type="range" id="baseline-period" name="baseline-period">
+            <!-- <input type="range" class="two-val-range-slider" id="baseline-period" name="baseline-period"> -->
+            <label id="baseline-range-field">
+              <section class="two-val-range-slider">
+                <span class="rangeValues" id="baseline-period" name="baseline-period"></span>
+                <input value="1965" min="1960" max="2030" step="1" class="baseline-slider" type="range">
+                <input value="1995" min="1960" max="2030" step="1" class="baseline-slider" type="range">
+                <input type="text" id="hidden-baseline-range" name="hidden-baseline-range" style="display: none;">
+              </section>
+            </label>
+            
             <label class="checkbox-field">
-              <input type="checkbox" id="use-epw" name="use-epw" value="True">
+              <input type="checkbox" id="use-epw" name="use-epw" value="True" onclick=checkBox(this)>
               <span class="label-body">Detect from EPW</span>
             </label>
           </div>
@@ -46,14 +55,14 @@
         <fieldset>
           <legend>Select a one or more climate pathways:</legend>
           <div>
-            <label class="checkbox">
-              <input type="checkbox" id="ssp126" name="climate-pathways" value="Best Case Scenario">
-              <span class="label-body">Best Case Scenario</span>
-              <input type="checkbox" id="ssp245" name="climate-pathways" value="Middle of the Road">
-              <span class="label-body">Middle of the Road</span>
-              <input type="checkbox" id="ssp585" name="climate-pathways" value="Worst Case Scenario">
-              <span class="label-body">Worst Case Scenario</span>
-            </label>
+            <!-- <label class="checkbox"> -->
+            <input type="checkbox" id="ssp126" name="climate-pathways" value="Best Case Scenario">
+            <span class="label-body">Best Case Scenario</span>
+            <input type="checkbox" id="ssp245" name="climate-pathways" value="Middle of the Road">
+            <span class="label-body">Middle of the Road</span>
+            <input type="checkbox" id="ssp585" name="climate-pathways" value="Worst Case Scenario">
+            <span class="label-body">Worst Case Scenario</span>
+            <!-- </label> -->
           </div>
         </fieldset>
 
@@ -68,26 +77,26 @@
         <fieldset>
           <legend>Select one or more percentiles of warming:</legend>
           <div>
-            <label class="checkbox">
-              <input type="checkbox" id="1st" name="percentiles" value="1">
-              <span class="label-body">1st</span>
-              <input type="checkbox" id="5th" name="percentiles" value="5">
-              <span class="label-body">5th</span>
-              <input type="checkbox" id="10th" name="percentiles" value="10">
-              <span class="label-body">10th</span>
-              <input type="checkbox" id="25th" name="percentiles" value="25">
-              <span class="label-body">25th</span>
-              <input type="checkbox" id="50th" name="percentiles" value="50">
-              <span class="label-body">50th</span>
-              <input type="checkbox" id="75th" name="percentiles" value="75">
-              <span class="label-body">75th</span>
-              <input type="checkbox" id="90th" name="percentiles" value="90">
-              <span class="label-body">90th</span>
-              <input type="checkbox" id="95th" name="percentiles" value="95">
-              <span class="label-body">95th</span>
-              <input type="checkbox" id="99th" name="percentiles" value="99">
-              <span class="label-body">99th</span>
-            </label>
+          
+            <input type="checkbox" id="1st" name="percentiles" value="1">
+            <span class="label-body">1st</span>
+            <input type="checkbox" id="5th" name="percentiles" value="5">
+            <span class="label-body">5th</span>
+            <input type="checkbox" id="10th" name="percentiles" value="10">
+            <span class="label-body">10th</span>
+            <input type="checkbox" id="25th" name="percentiles" value="25">
+            <span class="label-body">25th</span>
+            <input type="checkbox" id="50th" name="percentiles" value="50">
+            <span class="label-body">50th</span>
+            <input type="checkbox" id="75th" name="percentiles" value="75">
+            <span class="label-body">75th</span>
+            <input type="checkbox" id="90th" name="percentiles" value="90">
+            <span class="label-body">90th</span>
+            <input type="checkbox" id="95th" name="percentiles" value="95">
+            <span class="label-body">95th</span>
+            <input type="checkbox" id="99th" name="percentiles" value="99">
+            <span class="label-body">99th</span>
+            
           </div>
         </fieldset>
 
@@ -95,20 +104,20 @@
         <fieldset>
           <legend>Select variables to morph:</legend>
           <div>
-            <label class="checkbox">
-              <input type="checkbox" id="tas" name="variables" value="Temperature">
-              <span class="label-body">Temperature</span>
-              <input type="checkbox" id="relhum" name="variables" value="Humidity">
-              <span class="label-body">Relative Humidity</span>
-              <input type="checkbox" id="wind" name="variables" value="Wind">
-              <span class="label-body">Wind Speed</span>
-              <input type="checkbox" id="rad" name="variables" value="Clouds and Radiation">
-              <span class="label-body">Clouds & Radiation</span>
-              <input type="checkbox" id="psl" name="variables" value="Pressure">
-              <span class="label-body">Pressure</span>
-              <input type="checkbox" id="dewpt" name="variables" value="Dew Point">
-              <span class="label-body">Dew Point</span>
-            </label>
+            <!-- <label class="checkbox"> -->
+            <input type="checkbox" id="tas" name="variables" value="Temperature">
+            <span class="label-body">Temperature</span>
+            <input type="checkbox" id="relhum" name="variables" value="Humidity">
+            <span class="label-body">Relative Humidity</span>
+            <input type="checkbox" id="wind" name="variables" value="Wind">
+            <span class="label-body">Wind Speed</span>
+            <input type="checkbox" id="rad" name="variables" value="Clouds and Radiation">
+            <span class="label-body">Clouds & Radiation</span>
+            <input type="checkbox" id="psl" name="variables" value="Pressure">
+            <span class="label-body">Pressure</span>
+            <input type="checkbox" id="dewpt" name="variables" value="Dew Point">
+            <span class="label-body">Dew Point</span>
+            <!-- </label> -->
           </div>
         </fieldset>
 

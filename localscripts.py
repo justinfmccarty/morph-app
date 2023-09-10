@@ -38,7 +38,13 @@ def intake_form(form_data, uploaded_file):
     # get percentiles
     percentiles = [int(percentile) for percentile in form_data.getlist('percentiles')]
     
-    config_object = morph_config.MorphConfig(project_name, uploaded_file, MODEL_SOURCES, user_variables, user_pathways, percentiles, None)
+    if bool(form_data.getlist('use-epw')) == True:
+        baseline = None
+    else:
+        baseline = form_data.get('hidden-baseline-range').split(",")
+        baseline = (int(baseline[0]),int(baseline[1]))        
+    
+    config_object = morph_config.MorphConfig(project_name, uploaded_file, MODEL_SOURCES, user_variables, user_pathways, percentiles, None, baseline_range=baseline)
     os.remove(uploaded_file)
     
     # get future years

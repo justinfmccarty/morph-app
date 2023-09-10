@@ -2,80 +2,21 @@
 // import JSZip from 'jszip'
 
 // when page is too small activate the responsive nav menu
-function openResponsive() {
-  var x = document.getElementById("mainNav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-
-// function logSubmit(event) {
-//   console.log(`Form Submitted! Timestamp: ${event.timeStamp}`);
-// }
-
-// const configForm = document.getElementById("configuration")
-// configForm.addEventListener("submit", function (e) {
-//   e.preventDefault();
-
-//   const data = new FormData(configForm);
-//   let temp = document.getElementById("temp-output")
-//   temp.innerText = "---" + "\n"
-//   for (const [name, value] of data) {
-//     console.log(name, ":", value)
-//     temp.innerText += name + ":" + value + "\n"
+// function openResponsive() {
+//   var x = document.getElementById("mainNav");
+//   if (x.className === "nav-link") {
+//     x.className += " responsive";
+//   } else {
+//     x.className = "nav-link";
 //   }
-//   console.log(data.innerText)
-//   // submitFormFlask()
-//   // console.log("function run")
-// })
-
-// $(document).on('submit', '#configuration', function (e) {
-//   const configForm = document.getElementById("configuration")
-//   e.preventDefault();
-//   $.ajax({
-//     type: 'POST',
-//     url: '/morpher',
-//     data: $('#configuration').serialize(),
-//     success: function () {
-//       const myForm = new FormData(configForm);
-//       let temp = document.getElementById("temp-output")
-//       temp.innerText = "---" + "\n"
-//       for (const [name, value] of myForm) {
-//         temp.innerText += name + ":" + value + "\n"
-//       }
-
-//     }
-//   })
-// });
-
-// $(document).ready(function () {
-//   // Wait for the content to load.
-//   $("form[name='configuration']").submit(function (evt) {
-//     // If the form is to be submitted, ignore the standard behavior.
-//     evt.preventDefault();
-//     // Serialize the inputs to an array.
-//     let inputFields = $(this).serializeArray();
-//     // Send the data as JSON via AJAX.
-//     $.ajax({
-//       method: "POST",
-//       url: "/morpher",
-//       contentType: "application/json;charset=utf-8",
-//       dataType: "json",
-//       data: JSON.stringify({ input_fields: inputFields })
-//     }).done(data => {
-//       // Use the response here.
-//       console.log(data);
-//     });
-//   });
-// });
+// }
 
 $(function() {
   $('#submit-form').click(function() {
       const configForm = document.getElementById("configuration")
       const downloadBtn = document.getElementById("exec-get-results")
       var form_data = new FormData($('#configuration')[0]);
+      
       configForm.querySelector('.loader-container').style.display = 'block';
       $.ajax({
           type: 'POST',
@@ -85,25 +26,14 @@ $(function() {
           cache: false,
           processData: false,
           success: function() {
-            // console.log(data)
             downloadBtn.style.display = "inline";
-            // downloadBtn.href = data.filename;
-            // Download(data.filename)
             const myForm = new FormData(configForm);
             let temp = document.getElementById("temp-output")
             temp.innerText = "---" + "\n"
             for (const [name, value] of myForm) {
               temp.innerText += name + ":" + value + "\n"
             };
-            console.log("start zip");
-            // makeZip(data);
-            // Download();
-            // Object.keys(data).forEach(function(key) {
-            //   console.log('Key : ' + key + ', Value : ' + data[key])
-            //   downloadTxt(key, data[key]);
-            // })
             configForm.querySelector('.loader-container').style.display = 'none';
-            console.log("end zip");
           },
       });
   });
@@ -119,23 +49,6 @@ function Download() {
   a.download = zip_file_name;
   a.click();
   document.body.removeChild(a);
-}
-
-function downloadTxt(filename, text) {
-  // console.log(data)
-  
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-  
-  
 }
 
 // TYPEWRITER STUFF
@@ -159,56 +72,67 @@ var character = 0;
 }());
 
 
-function submitFormFlask() {
-  const response = fetch('/form-to-json')
+// RANGE SLIDER STUFF
+function getVals(){
+  // Get slider values
+  var parent = this.parentNode;
+  var slides = parent.getElementsByTagName("input");
+    var slide1 = parseFloat( slides[0].value );
+    var slide2 = parseFloat( slides[1].value );
+  // Neither slider will clip the other, so make sure we determine which is larger
+  if( slide1 > slide2 ){ var tmp = slide2; slide2 = slide1; slide1 = tmp; }
+  
+  var displayElement = parent.getElementsByClassName("rangeValues")[0];
+      displayElement.innerHTML = slide1 + " - " + slide2;
+  
+  var hiddenRange = document.getElementById("hidden-baseline-range");
+      hiddenRange.value = slide1 + "," + slide2;
+  
 }
 
-
-function execGetResults() {
-  fetch('/exec-get-results')
+window.onload = function(){
+  // Initialize Sliders
+  var sliderSections = document.getElementsByClassName("two-val-range-slider");
+      for( var x = 0; x < sliderSections.length; x++ ){
+        var sliders = sliderSections[x].getElementsByTagName("input");
+        for( var y = 0; y < sliders.length; y++ ){
+          if( sliders[y].type ==="range" ){
+            let slider_vals = getVals
+            sliders[y].oninput = slider_vals;
+            // Manually trigger event first time to display values
+            sliders[y].oninput();
+            
+          }
+        }
+      }
 }
 
-// function makeZip(data) {
-//   console.log(data)
-//   var zip = new JSZip();
-//   console.log("package started")
-//   zip.file("file1.txt", "hello world");
-//   zip.file("file2.txt", "hello world again");
-//   zip.generateAsync({ type: 'blob' }).then(function (content) {
-//       FileSaver.saveAs(content, 'download.zip');
-//   });
-// }
+// DISABLE RANGE SLIDER ON USE-EPW BOX CHECK
+function checkBox(chkb) {
+  disableSlider(chkb)
+  hideSliderText(chkb)
 
+}
 
-// function showDiv() {
-//   document.getElementById('welcomeDiv').style.display = "block";
-// }
+function disableSlider(chkb) {
+  var divs = document.getElementsByClassName('baseline-slider');
+  for( var x = 0; x < divs.length; x++ ){
+    let div = divs[x]
+    div.disabled = chkb.checked;
+    var chl = div.children;
+    for(var i=0; i< chl.length; i++)
+      {
+      chl[i].disabled = chkb.checked;
+      }
+  }
+ }
 
-
-// function redraw(_id, endpoint) {
-//   fetch(endpoint)
-//     .then(function(response){return response.text();})
-//     .then(function(data){
-//             document.getElementById(welcomeDiv).style.display = "none";
-//         }
-//     )
-// }
-
-// $(document).ready( function() {
-//     $('#submit-form').click(function() {
-//         $.ajax("{{ url_for('morpher') }}").done(function (reply) {
-//           $('#welcomeDiv').css({'display': 'none'});
-//           // $('#welcomeDiv').html(reply);
-//         });
-//     });
-// });
-
-// async function execGetCMIP() {
-//   const response = await fetch('/exec-get-cmip');
-// }
-
-// function execMorphEPW() {
-//   let data = sessionStorage.getItem("myData");
-//   console.log(data)
-//   fetch('/exec-morph-epw')
-// }
+function hideSliderText(chkb) {
+  var div = document.getElementById('baseline-period');
+  
+  if ( chkb.checked ) {
+    div.style.color = 'white'
+  } else {
+    div.style.color = 'black'
+  }
+ }

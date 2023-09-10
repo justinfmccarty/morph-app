@@ -78,10 +78,11 @@ def morpher():
     print("session: ", session)
     if request.method == "POST":
         if request.files["epw-file"].filename == "":
-            print("None")
             result_files = {"app": "morpher"}
-            
             # change to error base don lack of file or make form validatable
+            baseline = request.form.get('hidden-baseline-range').split(",")
+            baseline = (int(baseline[0]),int(baseline[1])) 
+            print(baseline)
             return jsonify(result_files)
         else:
             file_name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=42))
