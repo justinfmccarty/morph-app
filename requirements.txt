@@ -86,7 +86,7 @@ pyasn1-modules==0.3.0
 pycparser==2.21
 pydantic==2.3.0
 pydantic_core==2.6.3
-pyepwmorph==0.2.6
+pyepwmorph==0.2.7
 python-dateutil==2.8.2
 python-engineio==4.6.1
 python-socketio==5.8.0
