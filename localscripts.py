@@ -57,7 +57,7 @@ def intake_form(form_data, uploaded_file):
 
 def morphing_workflow(config_object):
     result_data = {}
-    for fut_year in config_object.future_years[0:1]:
+    for fut_year in config_object.future_years:
         fut_key = str(fut_year)
         result_data[fut_key] = {}
         future_range = calc_period(int(fut_year), config_object.baseline_range)
