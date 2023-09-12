@@ -62,14 +62,12 @@ def morphing_workflow(config_object):
         result_data[fut_key] = {}
         future_range = calc_period(int(fut_year), config_object.baseline_range)
         # get climate model data
-        print("start")
         year_model_dict = morph_workflows.iterate_compile_model_data(config_object.model_pathways,
                                                    config_object.model_variables,
                                                    config_object.model_sources,
                                                    config_object.epw.location['longitude'],
                                                    config_object.epw.location['latitude'],
                                                    config_object.percentiles)
-        print("finished")
         for pathway in [pathway for pathway in config_object.model_pathways if pathway!="historical"]:
             result_data[fut_key][pathway] = {}
             for percentile in config_object.percentiles:

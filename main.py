@@ -52,17 +52,13 @@ def about():
 @app.route("/morpher", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def morpher():
-    print("morph hi")
-    print(session)
     session.clear()
-    print("session: ", session)
     if request.method == "POST":
         if request.files["epw-file"].filename == "":
             result_files = {"app": "morpher"}
             # change to error base don lack of file or make form validatable
             baseline = request.form.get('hidden-baseline-range').split(",")
             baseline = (int(baseline[0]),int(baseline[1])) 
-            print(baseline)
             return jsonify(result_files)
         else:
             file_name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=42))
