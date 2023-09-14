@@ -17,10 +17,24 @@ import string
 import random
 from werkzeug.wsgi import FileWrapper
 import glob
+from flask_simple_captcha import CAPTCHA
 
+SECRET_KEY = os.getenv("TEMPSECRET_KEY")
 
 # Thanks:
 # https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/
+
+DEFAULT_CONFIG = {
+    'SECRET_CAPTCHA_KEY': SECRET_KEY,
+    'CAPTCHA_LENGTH': 6,  # Length of the generated CAPTCHA text
+    'CAPTCHA_DIGITS': False,  # Should digits be added to the character pool?
+    # EXPIRE_SECONDS will take prioritity over EXPIRE_MINUTES if both are set.
+    'EXPIRE_SECONDS': 60 * 10,
+    #'EXPIRE_MINUTES': 10, # backwards compatibility concerns supports this too
+    #'EXCLUDE_VISUALLY_SIMILAR': True,  # Optional
+    #'ONLY_UPPERCASE': True,  # Optional
+    #'CHARACTER_POOL': 'AaBb',  # Optional
+}
 
 app = Flask(__name__, static_folder="static/")
 # app.config["SESSION_TYPE"] = "filesystem"
@@ -31,8 +45,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 CORS(app)
-
-
+SIMPLE_CAPTCHA = CAPTCHA(config=DEFAULT_CONFIG)
+app = SIMPLE_CAPTCHA.init_app(app)
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -52,6 +66,7 @@ def about():
 @app.route("/morpher", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def morpher():
+    print(SECRET_KEY)
     session.clear()
     if request.method == "POST":
         if request.files["epw-file"].filename == "":
@@ -61,29 +76,37 @@ def morpher():
             baseline = (int(baseline[0]),int(baseline[1])) 
             return jsonify(result_files)
         else:
-            file_name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=42))
-            tmp_file = os.path.join(app.config["UPLOAD_FOLDER"], 
-                                    f"tmp_{request.form.get('project-name')}_{file_name}.epw"
-                                    )
-            with open(tmp_file,'wb') as fp:
-                data = request.files.get("epw-file").read()
-                fp.write(data)
-                
-            configured_form_data = ls.intake_form(request.form, tmp_file)
-            session['project_name'] = configured_form_data.project_name
-            morphed_epw_dict = ls.morphing_workflow(configured_form_data)
-            # returns an epw object (need to iterate and write to a zip archive for each of the three keys)            
-            result_files = ls.write_result_epws(configured_form_data, morphed_epw_dict)
-            for k,v in result_files.items():
-                session[k] = v
-        
-            result_files = {"app": "morpher"}
-            # TODO get redirect to work?
-            # return redirect("/download-morph-results")
-            return jsonify(result_files)
+            c_hash = request.form.get('captcha-hash')
+            c_text = request.form.get('captcha-text')
+            if SIMPLE_CAPTCHA.verify(c_text, c_hash):
+                    
+                file_name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=42))
+                tmp_file = os.path.join(app.config["UPLOAD_FOLDER"], 
+                                        f"tmp_{request.form.get('project-name')}_{file_name}.epw"
+                                        )
+                with open(tmp_file,'wb') as fp:
+                    data = request.files.get("epw-file").read()
+                    fp.write(data)
+                    
+                configured_form_data = ls.intake_form(request.form, tmp_file)
+                session['project_name'] = configured_form_data.project_name
+                morphed_epw_dict = ls.morphing_workflow(configured_form_data)
+                # returns an epw object (need to iterate and write to a zip archive for each of the three keys)            
+                result_files = ls.write_result_epws(configured_form_data, morphed_epw_dict)
+                for k,v in result_files.items():
+                    session[k] = v
             
-                
-    return render_template("morpher.html")
+                result_files = {"app": "morpher"}
+                # TODO get redirect to work?
+                # return redirect("/download-morph-results")
+                return jsonify(result_files)
+            else:
+                return 'failed captcha'
+            
+    else:           
+        new_captcha_dict = SIMPLE_CAPTCHA.create()
+        
+        return render_template("morpher.html", captcha=new_captcha_dict)
 
 @app.route("/download-morph-results")
 @cross_origin(supports_credentials=True)

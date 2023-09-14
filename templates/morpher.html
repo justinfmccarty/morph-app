@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>Morphing Application</title>
+  <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 </head>
 
 <body>
@@ -123,6 +124,7 @@
 
         <!-- <label for="submit"></label> -->
         <!-- <input type="submit" id="submit" name="submit"> -->
+        {{ captcha_html(captcha)|safe }}
         <button id="submit-form" type="button">Submit</button>
         <!-- <input type="text" name="submit-btn" id="submit-btn"> -->
         <!-- <button type="submit">submit data</button> -->
@@ -141,8 +143,9 @@
       <div class="morph-output-body">
         <div id="welcomeDiv"></div>
         <div class="morph-body nine">
-          <h2>Morphing Routine</h2>
-          <p id="temp-output"></p>
+          <h2>Morphng Output</h2>
+          <p id="temp-output" style="display: none;"></p>
+          <p>Once the model data is accessed and the files morphed a zip file will be made available to download.</p>
         </div>
         <div class="morph-body one">
           <!-- <a class="morph-output-download" id="exec-get-results" href="/exec-get-results">Download Results</a> -->
