@@ -66,7 +66,7 @@ def about():
 @app.route("/morpher", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def morpher():
-    print(SECRET_KEY)
+    # https://help.pythonanywhere.com/pages/environment-variables-for-web-apps
     session.clear()
     if request.method == "POST":
         if request.files["epw-file"].filename == "":
