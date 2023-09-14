@@ -42,7 +42,7 @@
 }
 
 #main-logo {
-    background-image: url("/images/warmingStripes.svg");
+    background-image: url("/static/warmingStripes.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 1000% 100%;
