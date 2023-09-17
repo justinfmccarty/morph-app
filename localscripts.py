@@ -38,18 +38,21 @@ def intake_form(form_data, uploaded_file):
     # get percentiles
     percentiles = [int(percentile) for percentile in form_data.getlist('percentiles')]
     
+    # get future years
+    future_years = [int(year) for year in form_data.get('future-years').split(",")]
+    
     if bool(form_data.getlist('use-epw')) == True:
         baseline = None
     else:
         baseline = form_data.get('hidden-baseline-range').split(",")
         baseline = (int(baseline[0]),int(baseline[1]))        
     
-    config_object = morph_config.MorphConfig(project_name, uploaded_file, MODEL_SOURCES, user_variables, user_pathways, percentiles, None, baseline_range=baseline)
+    config_object = morph_config.MorphConfig(project_name, uploaded_file, user_variables, user_pathways, percentiles, 
+                                             future_years, None, model_sources=MODEL_SOURCES, baseline_range=baseline)
     os.remove(uploaded_file)
     
-    # get future years
-    config_object.future_years = [int(year) for year in form_data.get('future-years').split(",")]
-    config_object.future_ranges = [calc_period(int(year), config_object.baseline_range) for year in config_object.future_years] 
+    
+    # config_object.future_ranges = [calc_period(int(year), config_object.baseline_range) for year in config_object.future_years] 
 
     return config_object
     
@@ -57,17 +60,17 @@ def intake_form(form_data, uploaded_file):
 
 def morphing_workflow(config_object):
     result_data = {}
+    # get climate model data
+    year_model_dict = morph_workflows.iterate_compile_model_data(config_object.model_pathways,
+                                                config_object.model_variables,
+                                                config_object.model_sources,
+                                                config_object.epw.location['longitude'],
+                                                config_object.epw.location['latitude'],
+                                                config_object.percentiles)
     for fut_year in config_object.future_years:
         fut_key = str(fut_year)
         result_data[fut_key] = {}
         future_range = calc_period(int(fut_year), config_object.baseline_range)
-        # get climate model data
-        year_model_dict = morph_workflows.iterate_compile_model_data(config_object.model_pathways,
-                                                   config_object.model_variables,
-                                                   config_object.model_sources,
-                                                   config_object.epw.location['longitude'],
-                                                   config_object.epw.location['latitude'],
-                                                   config_object.percentiles)
         for pathway in [pathway for pathway in config_object.model_pathways if pathway!="historical"]:
             result_data[fut_key][pathway] = {}
             for percentile in config_object.percentiles:
